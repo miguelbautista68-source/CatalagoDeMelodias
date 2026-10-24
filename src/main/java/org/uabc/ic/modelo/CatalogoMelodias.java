@@ -83,6 +83,8 @@ public class CatalogoMelodias {
     public ArrayList<String> obtenerTodosLosGeneros() {
         return canciones.stream()
                 .map(Melodia::getGenero)
+                .filter(Objects::nonNull)
+                .map(g -> g.trim().toLowerCase())
                 .distinct()
                 .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -90,11 +92,12 @@ public class CatalogoMelodias {
     public HashSet<String> obtenerTodasLosGererosIteractivo() {
         HashSet<String> generos = new HashSet<>();
         for (Melodia cancion : canciones) {
-            generos.add(cancion.getGenero());
+            if (cancion.getGenero() != null) {
+                generos.add(cancion.getGenero().trim().toLowerCase());
+            }
         }
         return generos;
     }
-
     // Lista de cantantes que tienen melodías (sin repetir, ordenados)
     public ArrayList<String> obtenerCantantes() {
         return canciones.stream()
